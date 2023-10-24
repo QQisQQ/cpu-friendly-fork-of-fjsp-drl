@@ -8,8 +8,10 @@ import gym
 import pandas as pd
 import torch
 import numpy as np
-
-import pynvml
+# nVidia manager lib
+# import pynvml
+# memory watcher
+import psutil
 import PPO_model
 from env.load_data import nums_detec
 
@@ -23,8 +25,8 @@ def setup_seed(seed):
 def main():
     # PyTorch initialization
     # gpu_tracker = MemTracker()  # Used to monitor memory (of gpu)
-    pynvml.nvmlInit()
-    handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+    # pynvml.nvmlInit()
+    # handle = pynvml.nvmlDeviceGetHandleByIndex(0)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     if device.type=='cuda':
         torch.cuda.set_device(device)
@@ -122,9 +124,15 @@ def main():
             # Create environment object
             else:
                 # Clear the existing environment
-                meminfo = pynvml.nvmlDeviceGetMemoryInfo(handle)
+                
+                if device.type == 'cuda':
+                    # meminfo = pynvml.nvmlDeviceGetMemoryInfo(handle)   
+                    pass                 
+                else:
+                    meminfo = psutil.virtual_memory()
+                
                 if meminfo.used / meminfo.total > 0.7:
-                    envs.clear()
+                        envs.clear()
                 # DRL-S, each env contains multiple (=num_sample) copies of one instance
                 if test_paras["sample"]:
                     env = gym.make('fjsp-v0', case=[test_file] * test_paras["num_sample"],
