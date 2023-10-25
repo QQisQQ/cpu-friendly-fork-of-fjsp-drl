@@ -19,8 +19,10 @@ Implementation of the IEEE TII paper [Flexible Job Shop Scheduling via Graph Neu
 ### Installation
 
 * python $\ge$ 3.6.13
+* setuptools == 63.2.0 
+* wheel == 0.38.4
 * pytorch $\ge$ 1.8.1
-* gym $\ge$ 0.18.0
+* gym == 0.18.0
 * numpy $\ge$ 1.19.5
 * pandas $\ge$ 1.1.5
 * visdom $\ge$ 0.1.8.9
