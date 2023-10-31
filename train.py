@@ -1,3 +1,4 @@
+# Before running, run the command “Python -m visdom.server” with a cmd or shell.
 import copy
 import json
 import os
@@ -29,9 +30,12 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     if device.type == 'cuda':
         torch.cuda.set_device(device)
-        torch.set_default_tensor_type('torch.cuda.FloatTensor')
+        # deprecated as of PyTorch 2.1
+        # torch.set_default_tensor_type('torch.cuda.FloatTensor')
     else:
-        torch.set_default_tensor_type('torch.FloatTensor')
+        pass
+        # deprecated as of PyTorch 2.1
+        # torch.set_default_tensor_type('torch.FloatTensor')
     print("PyTorch device: ", device.type)
     torch.set_printoptions(precision=None, threshold=np.inf, edgeitems=None, linewidth=None, profile=None, sci_mode=False)
 
